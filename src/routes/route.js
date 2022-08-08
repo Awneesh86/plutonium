@@ -35,4 +35,58 @@ router.get('/student-details/:name', function(req, res){
     res.send('Dummy response')
 })
 
+// problem 1  =======================================================================================
+router.get('/get-movies',function(req, res){ 
+    let movies1= ["Holiday ","Tiranga","Diljale","Kahani"]
+    res.send(movies1)
+})
+
+// problem 2 ========================================================================================
+router.get('/get-movie/:indexNumber',function(req, res){
+    
+    let movies = ['Naseeb','Mohra','Bhagambhag','Shole']
+    let index = req.params.indexNumber;
+    console.log(movies[index])
+     res.send(movies[index])
+})
+
+// Problem 3  ========================================================================================
+router.get('/get-moviess/:indexNumber',function(req, res){
+    
+    let moviesName = ['Naseeb','Mohra','Bhagambhag','Shole']
+    let index = req.params.indexNumber;
+
+     if(index > moviesName.length){
+        return res.send(" use a valid index ")
+     }else{
+    
+     res.send(moviesName[index])
+     }
+})
+
+// Problem 4  =========================================================================================
+router.get('/get-/films',function(req, res){
+
+    let moviesName=[ {"id": 1,"name": "The Shining"}, 
+                     {"id": 2,"name": "Incendies"}, 
+                     {"id": 3,"name": "Rang de Basanti"},
+                     {"id": 4,"name": "Finding Nemo"}]
+    res.send(moviesName)
+})
+
+// Problem 5 ==========================================================================================
+router.get('/get-/films/:indexNumber',function(req, res){  
+
+    let moviesName=[ {"id": 1,"name": "The Shining"}, 
+                     {"id": 2,"name": "Incendies"}, 
+                     {"id": 3,"name": "Rang de Basanti"},
+                     {"id": 4,"name": "Finding Nemo"}]
+    let index = req.params.indexNumber;
+     if(index > moviesName.length){
+        return res.send("no movie exist with this id ")
+     }else{
+     res.send(moviesName[index])
+     }
+})
+
 module.exports = router;

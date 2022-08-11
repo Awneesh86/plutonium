@@ -11,7 +11,63 @@ router.get('/test-me', function (req, res) {
 });
 
 
-let players =
+// let players =
+//    [
+//        {
+//            "name": "manish",
+//            "dob": "1/1/1995",
+//            "gender": "male",
+//            "city": "jalandhar",
+//            "sports": [
+//                "swimming"
+//            ]
+//        },
+//        {
+//            "name": "gopal",
+//            "dob": "1/09/1995",
+//            "gender": "male",
+//            "city": "delhi",
+//            "sports": [
+//                "soccer"
+//            ],
+//        },
+//        {
+//            "name": "lokesh",
+//            "dob": "1/1/1990",
+//            "gender": "male",
+//            "city": "mumbai",
+//            "sports": [
+//                "soccer"
+//            ],
+//        },
+//    ]
+
+//    router.post('/players', function (req, res) {
+
+//        //LOGIC WILL COME HERE
+//        let newPlayer = req.body
+//        let newPlayerName = newPlayer.name
+//        let isNameRepeated = false
+
+//        for(let i = 0; i < players.length; i++){
+//         if(players[i].name == newPlayerName){
+//             isNameRepeated = true;
+//             break
+//         }
+//        }
+
+//        if(isNameRepeated){
+//         res.send("This Player was already added!")
+//        } else{
+//         players.push(newPlayer)
+//         res.send(players)
+//        }
+
+//        res.send(  { data: players , status: true }  )
+//    });
+
+   // ============Problem - 2 Booking ID Number===========================================================
+   let players =
    [
        {
            "name": "manish",
@@ -42,29 +98,109 @@ let players =
        },
    ]
 
-   router.post('/players', function (req, res) {
+   
+   let booking = [
+    {
+        bookingNumber: 1,
+        bookingId: 12,
+        sportId: "",
+        centerId: "",
+        type: "private",
+        slot: "16286598000000",
+        bookedOn: "31/08/2021",
+        bookedFor: "01/09/2021",
+    },
+    {
+        bookingNumber: 2,
+        bookingId: 13,
+        sportId: "",
+        centerId: "",
+        type: "private",
+        slot: "16286598000000",
+        bookedOn: "31/08/2021",
+        bookedFor: "01/09/2021",
+    },
+    {
+        bookingNumber: 3,
+        bookingId: 14,
+        sportId: "",
+        centerId: "",
+        type: "private",
+        slot: "16286598000000",
+        bookedOn: "31/08/2021",
+        bookedFor: "01/09/2021",
+    },
+];
 
-       //LOGIC WILL COME HERE
-       let newPlayer = req.body
-       let newPlayerName = newPlayer.name
-       let isNameRepeated = false
 
-       for(let i = 0; i < players.length; i++){
-        if(players[i].name == newPlayerName){
-            isNameRepeated = true;
-            break
+router.post("/players/:playerName/bookings/:bookingId", function (req, res) {
+    let playerExist = false
+    for (let i = 0; i < players.length; i++) {
+        if (players[i].name == req.params.playerName) {
+            playerExist = true
         }
-       }
+    }
+    if (!playerExist) {
+        return res.send("This player does not exist")
+    }
+    for (let i = 0; i < booking.length; i++) {
+        if ((booking[i].bookingId == req.params.bookingId)) {
+            return res.send("This booking id already existed in Data");
+        }
+    }
+    req.body.playerName = req.params.playerName
+    req.body.bookingId = req.params.bookingId
 
-       if(isNameRepeated){
-        res.send("This Player was already added!")
-       } else{
-        players.push(newPlayer)
-        res.send(players)
-       }
+    booking.push(req.body);
+    return res.send(booking);
+});
 
-       res.send(  { data: players , status: true }  )
-   });
+ // ===================Problem - 3. 10/08/22 =====================================================================
+   let persons =[
+    {
+        name: "PK",
+        age: 10,
+        votingStatus: false
+        
+    },
+    {
+        name: "SK",
+        age: 20,
+        votingStatus: false
+        
+    },
+    {
+        name: "AA",
+        age: 70,
+        votingStatus: false
+        
+    },
+    {
+        name: "SC",
+        age: 5,
+        votingStatus: false
+        
+    },
+    {
+        name: "HO",
+        age: 40,
+        votingStatus: false
+        
+    }
+]
+router.post("/check-status", function(req,res){
+let personsName = req.body;
+let votingStatus = false;
+for(let i=0; i<persons.length; i++){
+    if( age >= 18){
+    res.send("votingStatus", true)
+    }
+    else{
+        res.send("votingStatus", false)
+    }
+}
+res.send(persons)
+});
    
 
 router.get("/test-api", function(req,res){
@@ -74,9 +210,9 @@ router.post("/test-post", function(req,res){
     res.send([23, 45, 6])
 });
  
-// router.post("/test-post-1", function(req,res){
-//     res.send(msg:"Hi", value:true)
-// });
+router.post("/test-post-1", function(req,res){
+    res.send({msg:"Hi", value:true})
+});
  
 
 // -write an api which gives the missing number in an array of integers starting from 1….e.g [1,2,3,5,6,7] : 4 is missing

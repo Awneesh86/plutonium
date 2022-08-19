@@ -1,41 +1,27 @@
 const express = require('express');
 const router = express.Router();
-// const UserModel= require("../models/userModel.js")
 const UserController= require("../controllers/userController")
 const BookController= require("../controllers/bookController")
+const AuthorController = require("../controllers/authorController")
 
 router.get("/test-me", function (req, res) {
     res.send("My first ever api!")
 })
 
-router.post("/createUser", UserController.createUser  )
+//====================== Creating Authors API According to Question ==============================//
+router.post("/createAuthor", AuthorController.createAuthor)
 
-router.get("/getUsersData", UserController.getUsersData)
+//====================== Creating Books API According to Question =================================//
+router.post("/createBook", AuthorController.createBook)
 
-router.post("/createBook", BookController.createBook  )
+//====================== Getting Books Data API For 1st Problem ==================================//
+router.get("/getBooksData", AuthorController.getBooksData  )
 
-router.get("/getBooksData", BookController.getBooksData)
+//====================== Getting Find Authors Data API For 2nd Problem ===========================//
+router.get("/findauthor", AuthorController.findauthor)
 
-router.post("/updateBooks", BookController.updateBooks)
-router.post("/deleteBooks", BookController.deleteBooks)
+//====================== Getting Find Books Data API For 3rd Problem =============================//
+router.get("/findBooks", AuthorController.findBooks)
 
-//MOMENT JS
-const moment = require('moment');
-router.get("/dateManipulations", function (req, res) {
-    
-    // const today = moment();
-    // let x= today.add(10, "days")
-
-    // let validOrNot= moment("29-02-1991", "DD-MM-YYYY").isValid()
-    // console.log(validOrNot)
-    
-    const dateA = moment('01-01-1900', 'DD-MM-YYYY');
-    const dateB = moment('01-01-2000', 'DD-MM-YYYY');
-
-    let x= dateB.diff(dateA, "days")
-    console.log(x)
-
-    res.send({ msg: "all good"})
-})
-
+      
 module.exports = router;

@@ -1,11 +1,21 @@
 const mongoose = require('mongoose');
+/*- A newAuthor document should look like this (no author_id anymore - you
+can delete this from the schema)
+{
+_id: ObjectId("61951bfa4d9fe0d34da86829"), // deleted this line.
+authorName:"Chetan Bhagat",
+age:50,
+address:"New Delhi",
+rating: 2
+} */
 
 const authorSchema = new mongoose.Schema( {
-    author_id: String,
-    author_name: String,
+
+    authorName: String,
     age:Number,
-    address:String
+    address: String,
+    rating: Number
 
 }, { timestamps: true });
 
-module.exports = mongoose.model('Author', authorSchema)
+module.exports = mongoose.model('newAuthor', authorSchema)

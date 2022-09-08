@@ -1,8 +1,9 @@
 let jwt = require("jsonwebtoken");
 const blogsModel = require("../Model/blogsModel");
-let mongoose=require('mongoose')
-let{idCharacterValid}=require('../Validation/validator')
+let mongoose = require('mongoose')
+let { idCharacterValid } = require('../Validation/validator')
 
+//==================== Authentication =========================//
 let authentication = async function (req, res, next) {
   try {
     let token = req.headers["x-api-key"];
@@ -25,9 +26,10 @@ let authentication = async function (req, res, next) {
   }
 };
 
+//===================== Authorization ============================//
 let authorization = async function (req, res, next) {
   try {
-    
+
     let token = req.headers["x-api-key"];
     let decodedToken = jwt.verify(token, "our_first_project");
     let blogId = req.params.blogId;
@@ -35,7 +37,7 @@ let authorization = async function (req, res, next) {
       return res
         .status(400)
         .send({ status: true, data: "the blogId is requried" });
-    if (!idCharacterValid(blogId))  return res.status(400).send({ status: false, msg: "blogId is invalid!" });
+    if (!idCharacterValid(blogId)) return res.status(400).send({ status: false, msg: "blogId is invalid!" });
 
     let findBlogId = await blogsModel
       .findById(blogId)

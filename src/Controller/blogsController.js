@@ -9,6 +9,7 @@ let {
 let mongoose = require("mongoose");
 let jwt = require("jsonwebtoken");
 
+//================== Create Blogs  ============================//
 const createBlogs = async function (req, res) {
   try {
     const data = req.body;
@@ -68,12 +69,12 @@ const createBlogs = async function (req, res) {
   }
 };
 
-//Get Blogs
+//================== Get All Blogs ==========================================//
 const getAllBlogs = async function (req, res) {
   try {
     const data = req.query;
 
-    //Validating data is empty or not
+    //========== Validating data is empty or not ==============================//
     if (!keyValid(data)) {
       const blog = await blogSchema.find({
         isPublished: true,
@@ -87,7 +88,7 @@ const getAllBlogs = async function (req, res) {
       }
       res.status(200).send({ status: true, data: blog });
     }
-    //get data by query param
+    //================ get data by query param =================================//
     if (keyValid(data)) {
       data.isPublished = true;
       data.isDeleted = false;
@@ -106,12 +107,13 @@ const getAllBlogs = async function (req, res) {
   }
 };
 
+//====================== Updating Blogs ===================================//
 const updateBlog = async function (req, res) {
   try {
     const blogId = req.params.blogId;
     const blogData = req.body;
     let { title, body, tags, subcategory } = blogData;
-    
+
     if (!idCharacterValid(blogId))
       return res.status(400).send({ status: false, msg: "blogId is invalid!" });
 
@@ -122,7 +124,7 @@ const updateBlog = async function (req, res) {
         .send({ status: true, data: "the blog does not Exist" });
 
     if (!keyValid(blogData))
-      return res 
+      return res
         .status(400)
         .send({ status: false, data: "the body input is requried" });
 
@@ -183,6 +185,7 @@ const updateBlog = async function (req, res) {
   }
 };
 
+//=========================== Deleted Blogs By Path with Validation ============================//
 const deleteBlog = async function (req, res) {
   try {
     let blogId = req.params.blogId;
@@ -213,37 +216,8 @@ const deleteBlog = async function (req, res) {
   }
 };
 
-// const deleteByKeys = async function (req, res) {
-//   try {
-//     let data = req.query 
-//     let authorId=data.authorId
-//     let validAid=mongoose.Types.ObjectId.isValid(authorId)
-//     if(!validAid) return res.status(404).send({ status: false, msg:"Give the valid authorID" })
 
-//     let filter = { ...data }   //stores the query params in the object obj-destructure-object literals
-//     let checkBlog = await blogSchema.findOne(filter)
-
-//     if (!checkBlog)
-//       return res.status(404).send({ status: false, msg: "no such blog exist...! " })
-
-//     if (checkBlog.isDeleted === true)
-//       return res.status(400).send({ status: false, msg: "blog is already deleted...!" })
-
-//     let blogId = checkBlog._id
-//     // console.log(blogId )
-//     let deleteBlog = await blogSchema.findOneAndUpdate(
-//       filter,
-//       { $set: { isDeleted: true, deletedAt: new Date() } },
-//       { new: true }
-//     )
-//     res.status(201).send({ status: true, data: deleteBlog })
-
-//   } catch (err) {
-//     res.status(500).send({ status: false, msg: err.message })
-//   }
-
-// }
-
+//======================== Deleted Blogs By Query Params with Validation ============================//
 const deleteByKeys = async function (req, res) {
   try {
     let data = req.query;
@@ -274,7 +248,9 @@ const deleteByKeys = async function (req, res) {
     }
     let decodedToken = jwt.verify(token, "our_first_project");
     if (!decodedToken)
-      return res.status(400).send({ status: false, data: "token is Invalid" });
+      return res
+        .status(400)
+        .send({ status: false, data: "token is Invalid" });
 
     let gettokenId = decodedToken.userId.toString();
 
